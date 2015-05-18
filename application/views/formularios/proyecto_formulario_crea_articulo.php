@@ -1,10 +1,5 @@
-<h1>Formulario de creacion de articulos</h1>
 
-<form action="<?=site_url('/proyecto_principal/creaArticulo/' . $idb)?>" method="post">
 
-Introduccion: <?=form_input("introduccion")?> <?=form_error('introduccion')?><br>
-Titulo: <?=form_input("titulo")?> <?=form_error('titulo')?><br>
-Texto Completo del articulo: 
 <script type="text/javascript">
 
 tinymce.init({
@@ -21,6 +16,22 @@ tinymce.init({
     ]
 });
 </script>
- <textarea rows="10" cols="50" name="textoc"></textarea><span class="rojo"><?=form_error('textoc')?></span><br><br>
-<input type="submit" value="Enviar">
-</form><br>
+<div class="panel panel-default">
+    	<div class="panel-heading"><h2>Formulario de creacion de articulos</h2></div>
+    	<div class="panel-body">
+<form role="form" action="<?=site_url('/proyecto_principal/creaArticulo/' . $idb)?>" method="post">
+  <div class="form-group">
+    <label for="titulo"><h3>Introduccion</h3></label>
+    <input type="text" class="form-control"  id="introduccion" name="introduccion" value="<?php if ($_POST){echo $_POST['introduccion'];}?>"> <?=form_error('introduccion')?>
+  </div>
+  <div class="form-group">
+    <label for="titulo"><h3>Titulo</h3></label>
+    <input type="text" class="form-control"  id="titulo" name="titulo" value="<?php if ($_POST){echo $_POST['titulo'];}?>"> <?=form_error('titulo')?>
+  </div>
+  <div class="form-group">
+    <label for="textoc"><h3>Texto Completo del articulo:</h3> </label>
+    <textarea class="form-control" rows="4" name="textoc" id="textoc"><?php if ($_POST){echo $_POST['textoc'];}?></textarea><?=form_error('textoc')?>
+  </div>
+  <input type="submit" class="btn btn-default" value="Crear el articulo">
+  </form>
+  </div></div>

@@ -1,12 +1,29 @@
-<h1>Inicio de sesion</h1>
-<?php echo validation_errors();?>
-<form action="<?=site_url('/proyecto_usuario/inicio_sesion')?>" method="post">
 
-Nombre de Usuario <?=form_input("id")?> <?=form_error('id')?><br>
-Clave <?=form_password("clave")?> <?=form_error('clave')?><br>
 
-<input type="submit" value="Enviar">
-</form><br>
-<a href="<?=site_url('/proyecto_usuario/creaUsuario')?>">Nuevo usuario</a>
-<a href="<?=site_url('/proyecto_usuario/recupera_clave')?>">He olvidado mi clave</a>
-<br>
+	<div class="panel panel-default">
+    	<div class="panel-heading"><h2>Inicio de sesion</h2><a class="btn btn-default" href="<?=site_url('/proyecto_usuario/creaUsuario')?>">Nuevo usuario</a>
+<a class="btn btn-default" href="<?=site_url('/proyecto_usuario/recupera_clave')?>">He olvidado mi clave</a></div>
+    	<div class="panel-body">
+		<form class="form-horizontal" role="form" action="<?=site_url('/proyecto_usuario/inicio_sesion')?>" method="post">
+ 
+   		
+    <div class="form-group">
+    <label for="idUsu"><h3>Nombre de usuario:</h3></label>
+    <input type="text" class="form-control"  id="idUsu" name="id" "> <?=form_error('id')?>
+  </div>
+    	 
+    <div class="form-group">
+    <label for="claveusu"><h3>Clave:</h3></label>
+    <input type="password" class="form-control"  id="claveusu" name="clave" "> <?=form_error('clave')?>
+  </div>
+ 
+   		
+    
+   
+ 
+   		 <input type="submit" class="btn btn-default"> 
+    
+</form>
+
+
+</div></div>

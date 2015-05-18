@@ -15,15 +15,18 @@ tinymce.init({
 });
 </script>
 
-<h1>Formulario creacion de blogs</h1>
-<form action="<?=site_url('/proyecto_principal/creablog')?>" method="post">
-
-Titulo <?=form_input("titulo")?> <?=form_error('titulo')?><br>
-
-Proposito con el que crea el blog:<br>
-<textarea rows="10" cols="70" name="proposito"></textarea><?=form_error('proposito')?>
-<br>
-<input type="submit" value="Enviar">
-</form><br>
-
-
+<div class="panel panel-default">
+    	<div class="panel-heading"><h2>Formulario creacion de blogs</h2></div>
+    	<div class="panel-body">
+<form role="form" action="<?=site_url('/proyecto_principal/creablog')?>" method="post">
+  <div class="form-group">
+    <label for="titulo"><h3>Titulo</h3></label>
+    <input type="text" class="form-control"  id="titulo" name="titulo" value="<?php if ($_POST){echo $_POST['titulo'];}?>"> <?=form_error('titulo')?>
+  </div>
+  <div class="form-group">
+    <label for="proposito"><h3>Proposito con el que se crea el blog</h3></label>
+    <textarea class="form-control" rows="4" name="proposito" id="proposito"><?php if ($_POST){echo $_POST['proposito'];}?></textarea><?=form_error('proposito')?>
+  </div>
+  <input type="submit" class="btn btn-default" value="Crear el blog">
+  </form>
+  </div></div>

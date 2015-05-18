@@ -1,10 +1,5 @@
-<a href="<?=site_url('proyecto_principal/muestraArticulo/'. $id)?>">Volver a modo normal</a>
-<br>
-<h1>Formulario de edicion de articulos</h1>
 
-<form method="post" action="<?=site_url('proyecto_principal/edicionArticulo/'. $id)?>">
-<p>Titulo <input type="text" value="<?=$titulo?>" name="titulo"></p>
-<p>Introduccion <input type="text" value="<?=$introduccion?>" name="introduccion"></p>
+
 <script type="text/javascript">
 
 tinymce.init({
@@ -21,21 +16,41 @@ tinymce.init({
     ]
 });
 </script>
-<textarea rows="10" cols="50" name="textoc">
-<?=$textoc?>
-</textarea><br>
-<input type="submit" value="Guardar los cambios">
-</form>
-<br>
-<br>
-<h2>Comentarios:</h2>
-<br>
-<br>
-<script type="text/javascript">
 
 
-</script>
+<div class="panel panel-default">
+<div class="panel-heading"><h2>Formulario de edicion de articulos<a class="btn btn-primary btn-sm" href="<?=site_url('proyecto_principal/muestraArticulo/'. $id)?>">Volver a modo normal</a></h2></div>
+<div class="panel-body">
+
+
+
+
+<form role="form" action="<?=site_url('proyecto_principal/edicionArticulo/'. $id)?>" method="post">
+  <div class="form-group">
+    <label for="titulo"><h3>Introduccion</h3></label>
+    <input type="text" class="form-control"  id="introduccion" name="introduccion" value="<?=$introduccion?>"> <?=form_error('introduccion')?>
+  </div>
+  <div class="form-group">
+    <label for="titulo"><h3>Titulo</h3></label>
+    <input type="text" class="form-control"  id="titulo" name="titulo" value="<?=$titulo?>"> <?=form_error('titulo')?>
+  </div>
+  <div class="form-group">
+    <label for="textoc"><h3>Texto Completo del articulo:</h3> </label>
+    <textarea class="form-control" rows="4" name="textoc" id="textoc"><?=$textoc?></textarea><?=form_error('textoc')?>
+  </div>
+<input class="btn btn-default" type="submit" value="Guardar los cambios">
+  </form>
+
+
+
+
+
+</div>
+<div class="panel-heading"><h2>Comentarios:</h2></div>
+<div class="panel-body">
+
 <?php 
+
 foreach ($comentarios as $coment)
 {
 	$tam = strlen($coment['texto']);
@@ -58,7 +73,7 @@ if ($this->proyecto_modelo_usuario->comp_administrador($coment['idusu']))
 }
 ?>
 
-	<input type="text" readonly="readonly"size="<?=$tam + 40?>"value="<?=$coment['texto']."\n Dejado por el usuario " . $usr . " en el " . $coment['fecha_c']?>"> 
+	<input type="text" class="form-control"  readonly="readonly"size="<?=$tam + 40?>"value="<?=$coment['texto']."\n Dejado por el usuario " . $usr . " en el " . $coment['fecha_c']?>"> 
 	
 	<?php if (!$this->proyecto_modelo_usuario->comp_administrador($coment['idusu'])){?>
 	<br><a href="<?=site_url('proyecto_principal/elimina_comentario/'. $coment['id'] .'/'. $id)?>">Eliminar el comentario</a>
@@ -67,4 +82,6 @@ if ($this->proyecto_modelo_usuario->comp_administrador($coment['idusu']))
 	<?php 
 }
 
-?>
+?></div>
+</div>
+

@@ -292,7 +292,7 @@ public function hayCoincidencias($cadena)
 	public function recupera_clave()
 	{
 		
-		$this->form_validation->set_rules('id', 'Identificacion', 'required|callback_usado');
+		$this->form_validation->set_rules('nombre', 'Identificacion', 'required|callback_usado');
 		
 		$this->form_validation->set_message('usado', "El nombre de usuario que a indicado no existe");
 		

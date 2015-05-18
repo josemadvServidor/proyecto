@@ -1,22 +1,38 @@
-<div>
-
-<a href="<?=site_url('proyecto_principal/')?>">Pagina de inicio</a>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li><a class="btn btn-primary btn-sm" href="<?=site_url('proyecto_principal/')?>">Inicio  <span class="glyphicon glyphicon-home"></span></a></li>
 <?php if ($this->session->userdata('dentro') == false){?>
-<a href="<?=site_url('proyecto_usuario/inicio_sesion')?>">Iniciar Sesion</a>
-<a href="<?=site_url('proyecto_usuario/creaUsuario')?>">Registrarse</a>
+
 <?php }else{?>
 	
-	<p>Usuario: <?=$this->session->userdata('id')?></p>
-	<a href="<?=site_url('/proyecto_usuario/modifica_datos')?>">Modificar la informacion de usuario</a>
-	<p><a href="<?=site_url('/proyecto_usuario/cierra_sesion')?>">Cerrar sesion</a></p>
-    <p><a href="<?=site_url('/proyecto_principal/creablog')?>">Crear nuevo blog</a></p>
+
+<li><a class="btn btn-lg btn-default" href="<?=site_url('/proyecto_principal/creablog')?>">Crear nuevo blog</a></li>
+<?php } ?>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+
+<form action="<?=site_url('proyecto_principal/buscaBlogs')?>" method="post">
+
+<li><input class="form-control" placeholder="texto a buscar" type="text" name="buscab"></li>
+<li><input class="btn btn-default" type="submit" value="Buscar"></li>
+
+</form>
+</ul>
+</div>
+
+
 <?php 
+if ($this->session->userdata('dentro')){
     $blogs = $this->proyecto_modelo_blog->blogsUsu($this->session->userdata('id'));
- 
+ 	?><div class="panel panel-default">
+    	<div class="panel-heading"><h2>Blogs que administra:</h2></div>
+    	<div class="panel-body"><?php 
     if (count($blogs) > 0)
     {
-    	?><div class="guardablogs"><p>Blogs que administra:</p>
-    	<?php
+    	?>
+    	
+    
+    <?php
     	foreach ($blogs as $blog)
     	{
     		
@@ -24,11 +40,10 @@
     		
     		?>
     		
-    		<a href="<?=site_url('/proyecto_principal/muestraBlog/' . $blogInf[0]['id'])?>"><?=$blogInf[0]['titulo']?></a>
+    		<a  class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_principal/muestraBlog/' . $blogInf[0]['id'])?>"><?=$blogInf[0]['titulo']?>  </a>
     		<?php 
     	}
     	?>
-    	</div>
     	<?php 
     }else{
 ?>    	
@@ -36,6 +51,9 @@
 <p>Aun no administra ningun blog</p>
 <?php 
     }
-
-}?>
-</div>
+    ?>
+    </div>
+    	</div>
+    <?php 
+    }
+?>

@@ -14,15 +14,42 @@ tinymce.init({
     ]
 });
 </script>
-<h1>Modo edicion</h1>
-<p><a href="<?=site_url('/proyecto_usuario/gestionPermisos/'.$idblog)?>">Gestionar permisos de administracion</a></p>
-<p><a href="<?=site_url('/proyecto_principal/muestraBlog/'.$idblog)?>">Volver al modo visualizacion</a></p>
-<form method="post" action="<?=site_url('proyecto_principal/editaBlog/'.$idblog)?>">
-<p>Titulo: <?=form_input('titulo',$titulo)?></p>
 
-<p>Tema principal del blog: <textarea name="proposito"><?=$proposito?></textarea></p>
-<input type="submit" value="Cambiar datos">
-</form>
+
+<div class="panel panel-default">
+<div class="panel-heading"><h2>Modo edicion:<?=$titulo?><?php
+if ($this->session->userdata('dentro'))
+{
+	if($this->proyecto_modelo_blog->compAdmin($idblog,$this->session->userdata('id')) || $this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id')))
+    {
+    	?>
+    	
+    	<a  class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_usuario/gestionPermisos/'.$idblog)?>">Gestionar permisos de administracion</a>
+    	<a class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_principal/muestraBlog/'.$idblog)?>">Volver al modo visualizacion</a>
+    	<?php 
+    }
+}
+		?>
+</h2></div>
+    	<div class="panel-body">
+    	
+    	
+    	
+    	<form role="form"  action="<?=site_url('proyecto_principal/editaBlog/'.$idblog)?>" method="post">
+  <div class="form-group">
+    <label for="titulo"><h3>Titulo</h3></label>
+    <input type="text" class="form-control"  id="titulo" name="titulo" value="<?=$titulo?>"> <?=form_error('titulo')?>
+  </div>
+  <div class="form-group">
+    <label for="proposito"><h3>Proposito con el que se crea el blog:</h3></label>
+    <textarea class="form-control" rows="4" name="proposito" id="proposito"><?=$proposito?></textarea><?=form_error('proposito')?>
+  </div>
+  <input type="submit" class="btn btn-default" value="Cambiar datos">
+  </form>
+
+
+
+
 <?php 
 if (count($articulos) > 0){
 foreach ($articulos as $articulo)
@@ -33,41 +60,12 @@ foreach ($articulos as $articulo)
 	<h2 ><span class="margenT"><?=$articulo['titulo']?></span></h2>
 	<p class="margenT">Creado el <?=$articulo['fecha']?> <span > por el usuario <?=$articulo['idusucrea']?></span> </p><br>
 	<p class="margenT"><?=$articulo['intro']?></p><br>
-<span class="verArt"><a  href="<?=site_url('proyecto_principal/muestraArticulo/'. $articulo['id'])?>">Ver el articulo completo</a>
-<a  href="<?=site_url('proyecto_principal/edicionArticulo/'. $articulo['id'])?>">Editar el articulo</a>
-<a  href="<?=site_url('proyecto_principal/confirmaEliminaArticulo/'. $articulo['id'])?>">Eliminar el articulo</a></span>
+<span class="verArt"><a  class="btn btn-lg btn-default" href="<?=site_url('proyecto_principal/muestraArticulo/'. $articulo['id'])?>">Ver el articulo completo</a>
+<a  class="btn btn-lg btn-default" href="<?=site_url('proyecto_principal/edicionArticulo/'. $articulo['id'])?>">Editar el articulo  <span class="glyphicon glyphicon-pencil"></span> </a>
+<a class="btn btn-lg btn-default"  href="<?=site_url('proyecto_principal/confirmaEliminaArticulo/'. $articulo['id'])?>">Eliminar el articulo <span class="glyphicon glyphicon-trash"></span></a></span>
 	
 	</div>
 	<?php 
-	/*
-	$contenidos = $this->proyecto_modelo_blog->recogeCont($articulo['id']);
-	
-	foreach ($contenidos as $contenido)
-	{
-		
-		if ($contenido['tipo'] == "imagen")
-		{
-			?>
-			<img WIDTH="50"  HEIGHT="50" src="<?=$contenido['texto']?>">
-			<?php 
-		}
-		
-		if ($contenido['tipo'] == "parrafo")
-		{
-			?>
-			<p><?=$contenido['texto']?></p>
-			<?php 
-		}
-		
-		if ($contenido['tipo'] == "enlace")
-		{
-			?>
-					<a href="<?=$contenido['texto']?>"><?=$contenido['texto']?></a>
-					<?php 
-		}
-		
-	}
-	*/
 }
 
 }else{
@@ -80,4 +78,4 @@ foreach ($articulos as $articulo)
 <?php 
 }
 ?>
-
+</div>
