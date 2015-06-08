@@ -1,27 +1,32 @@
 
 
 <div class="panel panel-default">
-<div class="panel-heading"><h2><?=$titulo?><?php 
+<div class="panel-heading"><h2><?=$titulo?></h2>
+
+<a name="fb_share" type="button" share_url=""></a> </div>
+
+    	<div class="panel-body">
+
+<?php 
 
 if ($this->session->userdata('dentro'))
 {
 	
-	if($this->proyecto_modelo_blog->compAdmin($idb,$this->session->userdata('id')) || $this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))){
+	if($this->proyecto_modelo_blog->compCreadorArt($id,$this->session->userdata('id')) || 
+	   $this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))){
 		?>
-	<a class="btn btn-primary btn-sm" href="<?=site_url('proyecto_principal/edicionArticulo/' . $id)?>">Pasar a modo edicion</a>
+	<a class="btn btn-primary btn-sm" href="<?=site_url('proyecto_principal/edicionArticulo/' . $id)?>">Editar el articulo</a>
 	<?php } 
 	}
 ?>
-</h2></div>
-
-    	<div class="panel-body">
-
-
 <h2><?=$introduccion?></h2>
-<a name="fb_share" type="button" share_url=""></a> 
+<div class="row">
+ <div class="col-xs-12 col-md-8 textoart" >
+ 
+<?=$textoc?>
 
-<h3><?=$textoc?></h3>
-
+ </div>
+ </div>
 </div>
 <div class="panel-heading"><h2>Comentarios:</h2></div>
 <div class="panel-body">
@@ -30,12 +35,14 @@ if ($this->session->userdata('dentro'))
 
 <textarea class="form-control" rows="3" name="comentario"></textarea>
 <br>
-<img src="<?=site_url('/proyecto_principal/captcha')?>" border="0" />
+<img src="<?=site_url('/proyecto_controlador_captcha/captcha')?>" border="0" />
 <br>
-  <input type="text" name="code" width="25" />
+  <input type="text" name="captcha" width="25" value="" /><?=form_error('captcha')?>
 <br><input class="btn btn-default btn-xs" type="submit" name="Enviar" value="Publicar comentario">
 </form>
 <?php 
+
+
 foreach ($comentarios as $coment)
 {
 ?>

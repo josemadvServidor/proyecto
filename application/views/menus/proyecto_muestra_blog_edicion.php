@@ -4,20 +4,25 @@ tinymce.init({
     selector: "textarea",
     theme: "modern",
     plugins: [
-        
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
     ],
-    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ",
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
     toolbar2: "print preview media | forecolor backcolor emoticons",
     image_advtab: true,
     templates: [
-       
+        {title: 'Test template 1', content: 'Test 1'},
+        {title: 'Test template 2', content: 'Test 2'}
     ]
 });
 </script>
 
 
 <div class="panel panel-default">
-<div class="panel-heading"><h2>Modo edicion:<?=$titulo?><?php
+<div class="panel-heading"><h2>Modo edicion:<?=$titulo?>
+</h2><?php
 if ($this->session->userdata('dentro'))
 {
 	if($this->proyecto_modelo_blog->compAdmin($idblog,$this->session->userdata('id')) || $this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id')))
@@ -26,11 +31,11 @@ if ($this->session->userdata('dentro'))
     	
     	<a  class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_usuario/gestionPermisos/'.$idblog)?>">Gestionar permisos de administracion</a>
     	<a class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_principal/muestraBlog/'.$idblog)?>">Volver al modo visualizacion</a>
+    	<a class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_principal/eliminaBlog/'.$idblog)?>">Eliminar el blog</a>
     	<?php 
     }
 }
-		?>
-</h2></div>
+		?></div>
     	<div class="panel-body">
     	
     	
@@ -61,9 +66,11 @@ foreach ($articulos as $articulo)
 	<p class="margenT">Creado el <?=$articulo['fecha']?> <span > por el usuario <?=$articulo['idusucrea']?></span> </p><br>
 	<p class="margenT"><?=$articulo['intro']?></p><br>
 <span class="verArt"><a  class="btn btn-lg btn-default" href="<?=site_url('proyecto_principal/muestraArticulo/'. $articulo['id'])?>">Ver el articulo completo</a>
+<?php if($this->proyecto_modelo_blog->compCreadorArt($articulo['id'],$this->session->userdata('id')) || 
+	     $this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))){?>
 <a  class="btn btn-lg btn-default" href="<?=site_url('proyecto_principal/edicionArticulo/'. $articulo['id'])?>">Editar el articulo  <span class="glyphicon glyphicon-pencil"></span> </a>
 <a class="btn btn-lg btn-default"  href="<?=site_url('proyecto_principal/confirmaEliminaArticulo/'. $articulo['id'])?>">Eliminar el articulo <span class="glyphicon glyphicon-trash"></span></a></span>
-	
+	<?php }?>
 	</div>
 	<?php 
 }

@@ -38,10 +38,11 @@ public function nuevoPermiso($idb)
 			if ($this->form_validation->run()==false)
 			{
 			
-			$this->load->view('plantilla/proyecto_encabezado');
-			$this->load->view('plantilla/proyecto_cabecera');
-			$this->load->view('formularios/proyecto_dar_permiso',$datos);
-			$this->load->view('plantilla/proyecto_pie');
+			$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>	$this->load->view('formularios/proyecto_dar_permiso',$datos,true)
+   			
+ 					]);
+			
 			
 			}else{
 			   
@@ -57,10 +58,11 @@ public function nuevoPermiso($idb)
 						"cadena" =>$cadena
 				);
 			
-				$this->load->view('plantilla/proyecto_encabezado');
-				$this->load->view('plantilla/proyecto_cabecera');
-				$this->load->view('menus/proyecto_muestra_coincidencias',$datos);
-				$this->load->view('plantilla/proyecto_pie');
+				$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('menus/proyecto_muestra_coincidencias',$datos,true)
+   			
+ 					]);
+				
 			
 			}
 				
@@ -68,10 +70,11 @@ public function nuevoPermiso($idb)
 	
 	}else{
 	
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('errores/proyecto_no_sesion');
-		$this->load->view('plantilla/proyecto_pie');
+			$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('errores/proyecto_no_sesion',null,true)
+   			
+ 					]);
+		
 	
 	
 	}
@@ -97,10 +100,11 @@ public function daPermiso($idusu, $idblog, $cadena)
 				"cadena" => $cadena
 		);
 			
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('menus/proyecto_muestra_coincidencias',$datos);
-		$this->load->view('plantilla/proyecto_pie');
+		$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('menus/proyecto_muestra_coincidencias',$datos,true)
+   			
+ 					]);
+		
 		
 		
 	}else{
@@ -132,24 +136,172 @@ public function gestionPermisos($idb)
 			
 			
 			
-			$this->load->view('plantilla/proyecto_encabezado');
-			$this->load->view('plantilla/proyecto_cabecera');
-			$this->load->view('menus/proyecto_menu_gestion',$datos);
-			$this->load->view('plantilla/proyecto_pie');
+				
+		$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('menus/proyecto_menu_gestion',$datos,true)
+   			
+ 					]);
+			
 			
 			
 		}
 	
 	}else{
 	
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('errores/proyecto_no_sesion');
-		$this->load->view('plantilla/proyecto_pie');
+		$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('errores/proyecto_no_sesion',null,true)
+   			
+ 					]);
 	
 	
 	}
 	
+}
+
+
+public function retiraPermiso($blog, $usu)
+{
+	
+	//Comprobamos si ahi un usuario conectado
+	if ($this->session->userdata('dentro'))
+	{
+		//Comprobamos si el usuario conecado tiene permisos sobre el blog
+		//o si es un administrador de la aplicacion
+		if($this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))
+			|| $this->proyecto_modelo_blog->compCreador($this->session->userdata('id'),$blog)){
+	
+	
+			if ($this->proyecto_modelo_usuario->retiraPermiso($usu,$blog))
+			{
+				
+				$datos = array(
+				
+						"usuariosAdmin" => $this->proyecto_modelo_usuario->administran($blog),
+						"blog" => $this->proyecto_modelo_blog->devblog($blog)
+							
+				);
+					
+					
+					
+				
+				$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>$this->load->view('menus/proyecto_menu_gestion',$datos,true)
+				
+						]);
+				
+			}
+	
+				
+	
+		}else{
+			//Si el usuario no es valido lo notificamos
+			$this->load->view('plantilla/plantilla', [
+					'cuerpo'=>$this->load->view('errores/proyecto_no_valido',null,true)
+	
+					]);
+	
+		}
+	
+	}else{
+		//Si no ahi usuarios conectados lo notificamos
+		$this->load->view('plantilla/plantilla', [
+				'cuerpo'=>$this->load->view('errores/proyecto_no_sesion',null,true)
+	
+				]);
+			
+			
+	}
+	
+}
+
+public function gestiona_usuarios()
+{
+	
+	
+	//Comprobamos si ahi un usuario conectado
+	if ($this->session->userdata('dentro'))
+	{
+		//Comprobamos si el usuario conecado tiene permisos sobre el blog
+		//o si es un administrador de la aplicacion
+		if($this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))){
+	
+			$usuarios = $this->proyecto_modelo_usuario->recogeUsuarios();
+			
+			$datos = array('usuarios' => $usuarios);
+			
+			$this->load->view('plantilla/plantilla', [
+					'cuerpo'=>$this->load->view('menus/proyecto_gestion_usuarios',$datos,true)
+			
+					]);
+			
+			
+			
+		}else{
+			//Si el usuario no es valido lo notificamos
+			$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('errores/proyecto_no_sesion',null,true)
+   			
+ 					]);
+	
+		}
+	
+	}else{
+		//Si no ahi usuarios conectados lo notificamos
+		$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('errores/proyecto_no_valido',null,true)
+   			
+ 					]);
+		 
+		 
+	}
+}
+
+public function cambiaEstado($id)
+{
+	//Comprobamos si ahi un usuario conectado
+	if ($this->session->userdata('dentro'))
+	{
+		//Comprobamos si el usuario conecado tiene permisos sobre el blog
+		//o si es un administrador de la aplicacion
+		if($this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))){
+	
+	
+
+			if ($this->proyecto_modelo_usuario->cambiaEstado($id))
+			{
+				
+				$usuarios = $this->proyecto_modelo_usuario->recogeUsuarios();
+					
+				$datos = array('usuarios' => $usuarios);
+					
+				$this->load->view('plantilla/plantilla', [
+					'cuerpo'=>$this->load->view('menus/proyecto_gestion_usuarios',$datos,true)
+			
+					]);
+				
+					
+				
+			}
+			
+
+	}else{
+		//Si el usuario no es valido lo notificamos
+		$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('errores/proyecto_no_valido',null,true)
+   			
+ 					]);
+	
+	}
+	
+	}else{
+		//Si no ahi usuarios conectados lo notificamos
+		$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('errores/proyecto_no_sesion',null,true)
+   			
+ 					]);
+			
+			
+	}
 }
 
 public function hayCoincidencias($cadena)
@@ -179,10 +331,11 @@ public function hayCoincidencias($cadena)
 		if ($this->form_validation->run()==false)
 		{
 		
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('formularios/proyecto_menu_inicio_sesion');
-		$this->load->view('plantilla/proyecto_pie');
+		$this->load->view('plantilla/plantilla', [
+					'cuerpo'=>$this->load->view('formularios/proyecto_menu_inicio_sesion',null,true)
+			
+					]);
+		
 		
 		}else{
 		//	if (count($datosUs = $this->practica_modelo_usuarios->valida_usuario($this->input->post('nombre'), $this->input->post('clave'))) > 0)
@@ -197,20 +350,23 @@ public function hayCoincidencias($cadena)
 				$this->session->set_userdata("dentro", true);
 				
 				
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('proyecto_exito_inicio_sesion');
-		$this->load->view('plantilla/proyecto_pie');
+				$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>	$this->load->view('proyecto_exito_inicio_sesion',null,true)
+							
+						]);
+	
 				
 			}else{
 				
 			$datos = array ("id" => $this->input->post('id'),
 			                "clave" => $this->input->post('clave'));
 			
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('formularios/proyecto_menu_inicio_fallido', $datos);
-		$this->load->view('plantilla/proyecto_pie');
+		$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>	$this->load->view('formularios/proyecto_menu_inicio_fallido', $datos, true)
+							
+						]);
+	
+		
 				
 			}
 			
@@ -240,10 +396,11 @@ public function hayCoincidencias($cadena)
 			
 			$datos = array("datos" => $info[0]);
 			
-			$this->load->view('plantilla/proyecto_encabezado');
-			$this->load->view('plantilla/proyecto_cabecera');
-			$this->load->view('formularios/proyecto_formulario_edita_usuario', $datos);
-			$this->load->view('plantilla/proyecto_pie');
+			$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>$this->load->view('formularios/proyecto_formulario_edita_usuario', $datos,true)
+							
+						]);
+			
 		
 		}else{
 				
@@ -267,18 +424,20 @@ public function hayCoincidencias($cadena)
 		
 				
 					
-				$this->load->view('plantilla/proyecto_encabezado');
-				$this->load->view('plantilla/proyecto_cabecera');
-				$this->load->view('proyecto_exito_edicion_usu', $datos);
-				$this->load->view('plantilla/proyecto_pie');
+				$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>$this->load->view('proyecto_exito_edicion_usu', $datos, true)
+							
+						]);
+				
 					
 					
 			}else{
 		
-				$this->load->view('plantilla/proyecto_encabezado');
-				$this->load->view('plantilla/proyecto_cabecera');
-				$this->load->view('errores/proyecto_fallo_edicion_usu', $datos);
-				$this->load->view('plantilla/proyecto_pie');
+				$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>$this->load->view('errores/proyecto_fallo_edicion_usu', $datos,true)
+							
+						]);
+				
 		
 			}
 		
@@ -299,10 +458,11 @@ public function hayCoincidencias($cadena)
 		if ($this->form_validation->run()==false)
 		{
 				
-			$this->load->view('plantilla/proyecto_encabezado');
-			$this->load->view('plantilla/proyecto_cabecera');
-			$this->load->view('formularios/proyecto_formulario_recup_clave');
-			$this->load->view('plantilla/proyecto_pie');
+			$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>$this->load->view('formularios/proyecto_formulario_recup_clave',null,true)
+							
+						]);
+			
 		
 			
 			
@@ -341,10 +501,11 @@ public function hayCoincidencias($cadena)
 							
 			if ($this->email->send())
 			{
-				$this->load->view('plantilla/proyecto_encabezado');
-		     	$this->load->view('plantilla/proyecto_cabecera');
-				$this->load->view('proyecto_nueva_clave_cor');
-				$this->load->view('plantilla/proyecto_pie');
+				$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>$this->load->view('proyecto_nueva_clave_cor',null,true)
+							
+						]);
+				
 			
 						}
 						else
@@ -398,10 +559,11 @@ public function hayCoincidencias($cadena)
 		if ($this->form_validation->run()==false)
 		{
 			
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('formularios/proyecto_formulario_crea_usuario');
-		$this->load->view('plantilla/proyecto_pie');
+		$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>	$this->load->view('formularios/proyecto_formulario_crea_usuario',null,true)
+							
+						]);
+	
 		
 		}else{
 			
@@ -426,18 +588,21 @@ public function hayCoincidencias($cadena)
 						$this->session->set_userdata("id", $id);
 						$this->session->set_userdata("dentro", true);
 			
-						$this->load->view('plantilla/proyecto_encabezado');
-						$this->load->view('plantilla/proyecto_cabecera');
-						$this->load->view('proyecto_exito_crea_usu', $datos);
-						$this->load->view('plantilla/proyecto_pie');
+			$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>		$this->load->view('proyecto_exito_crea_usu', $datos,true)
+							
+						]);
+	
+					
 			
 			
 					}else{
 						
-						$this->load->view('plantilla/proyecto_encabezado');
-						$this->load->view('plantilla/proyecto_cabecera');
-						$this->load->view('errores/proyecto_fallo_crea_usu', $datos);
-						$this->load->view('plantilla/proyecto_pie');
+						$this->load->view('plantilla/plantilla', [
+						'cuerpo'=>$this->load->view('errores/proyecto_fallo_crea_usu', $datos, true)
+							
+						]);
+						
 						
 					}
 						
@@ -458,10 +623,10 @@ public function hayCoincidencias($cadena)
 		$this->session->sess_destroy();
 		
 
-		$this->load->view('plantilla/proyecto_encabezado');
-		$this->load->view('plantilla/proyecto_cabecera');
-		$this->load->view('proyecto_cierre_sesion');
-		$this->load->view('plantilla/proyecto_pie');
+		$this->load->view('plantilla/plantilla', [
+ 							'cuerpo'=>$this->load->view('proyecto_cierre_sesion',null,true)
+   			
+ 					]);
 		
 	}
 

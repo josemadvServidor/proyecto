@@ -71,11 +71,17 @@ font-weight: bold;
 
 }
 
+.textoart{
+	font-size: 17px;
+	
+}
+
 .artic{
 	border:2px solid;
 background:lightblue;
 widht:180px;
 margin:50px;
+font-size: 15px;
 	
 	
 }

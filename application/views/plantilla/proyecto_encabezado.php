@@ -31,8 +31,9 @@
 <li><a class="btn btn-primary btn-sm" href="<?=site_url('proyecto_usuario/inicio_sesion')?>">Iniciar Sesion</a></li>
 <li><a class="btn btn-primary btn-sm" href="<?=site_url('proyecto_usuario/creaUsuario')?>">Registrarse</a></li>
 <?php }else{?>
-	
-
+	<?php if($this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))){ ?>
+<li><a class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_usuario/gestiona_usuarios')?>">Gestionar usuarios<span class="glyphicon glyphicon-cog"></span></a> </li>
+<?php }?>
 <li><a class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_usuario/modifica_datos')?>">Modificar la informacion de usuario<span class="glyphicon glyphicon-cog"></span></a> </li>
 
 <li><a class="btn btn-lg btn-default" href="<?=site_url('/proyecto_usuario/cierra_sesion')?>">Usuario: <?=$this->session->userdata('id')?>(conectado) Cerrar sesion  <span class="glyphicon glyphicon-off"></span> </a></li>

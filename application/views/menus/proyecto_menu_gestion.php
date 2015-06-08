@@ -6,6 +6,7 @@
   <table class="table">
     <tr>
 <th>Administradores</th>
+<th>Permisos</th>
 </tr>
 <tr>
 <?php foreach ($usuariosAdmin as $usuario){?>
@@ -13,8 +14,29 @@
 
 <?=$usuario['idusu']?>
 </td>
+<td>
+<?php 
+if ($this->proyecto_modelo_blog->compCreador($this->session->userdata('id'), $blog[0]['id']) 
+|| $this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id')))
+{
+	
+	if (!$this->proyecto_modelo_blog->compCreador($usuario['idusu'],$blog[0]['id']))
+	{
+		?>
+		<a class="btn btn-primary btn-sm" href="<?=site_url('/proyecto_usuario/retiraPermiso/'.$blog[0]['id'] . '/' .$usuario['idusu'] )?>" >Retirar permisos</a>
+		<?php 
+	}else{
+		?>
+		<h3>Creador</h3>
+		<?php 
+
+	}
+	
+}
+?>
+</td></tr>
 <?php }?>
-</tr>
+
   </table>
 </div>
 </div>

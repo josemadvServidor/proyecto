@@ -17,9 +17,9 @@
 |
 */
 
-	//$config['base_url']	= 'http://iessansebastian.com/alumnos/2daw1415/josem/proyecto/';
+	$config['base_url']	= 'http://iessansebastian.com/alumnos/2daw1415/josem/proyecto/';
  
-	$config['base_url']	= 'http://localhost/Proyecto/proyecto';
+	//$config['base_url']	= 'http://localhost/Proyecto/proyecto';
 
 
 /*

@@ -47,17 +47,7 @@ foreach ($articulos as $articulo)
 	<h2><?=$articulo['titulo']?></h2>
 	<p>Creado el <?=$articulo['fecha']?></p>
 	<p><a class="btn btn-primary btn-xs" href="<?=site_url('proyecto_principal/muestraArticulo/' . $articulo['id'])?>">Ver el articulo</a>
-	<?php 
-	if ($this->session->userdata('dentro'))
-	{
-		if($this->proyecto_modelo_blog->compAdmin($articulo['idblog'],$this->session->userdata('id')) || $this->proyecto_modelo_usuario->comp_administrador($this->session->userdata('id'))){
-	?>
-	<a class="btn btn-primary btn-xs" href="<?=site_url('proyecto_principal/editaArticulo/' . $articulo['id'])?>">Entrar en modo edicion</a>
-	<?php } ?></p>
 	
-	 <?php
-	}
-	?>
 	</div>
 <?php }
   }else{

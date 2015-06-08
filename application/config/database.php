@@ -51,9 +51,9 @@ $active_record = TRUE;
 
 
 
-	//$db['default']['hostname'] = 'localhost';$db['default']['username'] = '2daw1415_josem';$db['default']['password'] = 'zdalse?41';$db['default']['database'] = '2daw1415_josem02';
+	$db['default']['hostname'] = 'localhost';$db['default']['username'] = '2daw1415_josem';$db['default']['password'] = 'zdalse?41';$db['default']['database'] = '2daw1415_josem02';
 
-$db['default']['hostname'] = '127.0.0.1';$db['default']['username'] = 'root';$db['default']['password'] = '';$db['default']['database'] = 'proyecto';
+//$db['default']['hostname'] = '127.0.0.1';$db['default']['username'] = 'root';$db['default']['password'] = '';$db['default']['database'] = 'proyecto';
 
 
 

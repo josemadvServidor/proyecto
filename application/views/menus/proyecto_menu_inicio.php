@@ -8,7 +8,7 @@
 foreach ($blogs as $blog)
 {
 	?>
-	
+	<div style="font-size: 15px">
 	<div class="col-xs-12 col-md-8">
 	<h2><?=$blog['titulo']?></h2>
 	</div>
@@ -33,7 +33,7 @@ foreach ($blogs as $blog)
 	 <?php
 	}
 	?>
-	</div>
+	</div></div>
 <?php }?>
 </div>
 

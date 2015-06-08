@@ -10,12 +10,12 @@
   
    <div class="form-group">
     <label for="clave"><h3>Clave:</h3></label>
-    <input type="text" class="form-control"  id="clave" name="clave" value="<?php if ($_POST){echo $_POST['clave'];}?>"> <?=form_error('clave')?>
+    <input type="password" class="form-control"  id="clave" name="clave" value="<?php if ($_POST){echo $_POST['clave'];}?>"> <?=form_error('clave')?>
   </div>
   
     <div class="form-group">
     <label for="conf_clave"><h3>Confirma clave:</h3></label>
-    <input type="text" class="form-control"  id="conf_clave" name="conf_clave" value=""> <?=form_error('conf_clave')?>
+    <input type="password" class="form-control"  id="conf_clave" name="conf_clave" value=""> <?=form_error('conf_clave')?>
   </div>
   
       <div class="form-group">
